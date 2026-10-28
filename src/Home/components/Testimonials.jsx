@@ -24,47 +24,45 @@ function Testimonials() {
   ];
 
   return (
-    <section className="py-20 bg-black">
+    <section className="home-testimonials">
       <div className="max-w-7xl mx-auto px-5">
-        <div className="text-center mb-14">
-          <span className="text-yellow-400 text-sm font-medium uppercase tracking-widest">
-            Testimonials
+        <div className="home-section-heading">
+          <span className="home-section-eyebrow">
+            NOTES FROM THE CROWD
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-white mt-3 mb-4">
-            What Our{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
-              Clients Say
-            </span>
+          <h2>
+            Moments that <span>stay with you.</span>
           </h2>
+          <p>Every great event starts with the feeling you want people to take home.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {testimonials.map((t, idx) => (
+        <div className="home-testimonial-grid">
+          {testimonials.map((t) => (
             <div
-              key={idx}
-              className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 hover:bg-white/10 transition-all"
+              key={t.name}
+              className="home-testimonial-card"
             >
-              <div className="text-yellow-400 mb-4">
+              <div className="home-stars" aria-label="5 out of 5 stars">
                 {[...Array(5)].map((_, i) => (
                   <svg
                     key={i}
-                    className="w-5 h-5 fill-current"
+                    className="h-4 w-4 fill-current"
                     viewBox="0 0 24 24"
                   >
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                   </svg>
                 ))}
               </div>
-              <p className="text-gray-300 text-sm leading-relaxed mb-6">"{t.quote}"</p>
-              <div className="flex items-center gap-3">
+              <p className="home-quote">“{t.quote}”</p>
+              <div className="home-reviewer">
                 <img
                   src={t.avatar}
                   alt={t.name}
-                  className="w-12 h-12 rounded-full object-cover border-2 border-yellow-400/50"
+                  className="h-11 w-11 rounded-full object-cover"
                 />
                 <div>
-                  <div className="text-white font-semibold text-sm">{t.name}</div>
-                  <div className="text-gray-500 text-xs">{t.role}</div>
+                  <div className="home-reviewer-name">{t.name}</div>
+                  <div className="home-reviewer-role">{t.role}</div>
                 </div>
               </div>
             </div>

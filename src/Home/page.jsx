@@ -1,7 +1,6 @@
 import CelebrityGrid from "./components/CelebrityGrid";
 import Services from "./components/Services";
 import Testimonials from "./components/Testimonials";
-import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 function HomePage() {
   return (
@@ -12,7 +11,6 @@ function HomePage() {
         <Services />
         <Testimonials />
       </main>
-      <Footer />
     </>
   );
 }

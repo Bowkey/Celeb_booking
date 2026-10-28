@@ -64,15 +64,15 @@ function PaymentPage() {
   }
 
   return (
-    <main className="min-h-[70vh] bg-black px-5 pb-20 pt-32 text-white">
-      <section className="mx-auto max-w-2xl rounded-2xl border border-white/10 bg-white/5 p-6 md:p-10">
+    <main className="payment-page">
+      <section className="payment-card">
         <div className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-400">
-            Secure checkout
+          <p className="payment-eyebrow">
+            NEXT STEP
           </p>
-          <h1 className="mt-3 text-4xl font-bold">Choose a Payment Method</h1>
+          <h1 className="mt-3">Review your payment options</h1>
           {(celebrityName || eventType) && (
-            <p className="mt-4 text-gray-300">
+            <p className="mt-4 text-sm">
               {celebrityName && <span>{celebrityName}</span>}
               {celebrityName && eventType && <span> · </span>}
               {eventType && <span>{eventType}</span>}
@@ -81,7 +81,7 @@ function PaymentPage() {
         </div>
 
         <div
-          className="mt-8 grid grid-cols-2 gap-3"
+          className="payment-tabs mt-8 grid grid-cols-2 gap-3"
           role="tablist"
           aria-label="Payment method"
         >
@@ -95,11 +95,7 @@ function PaymentPage() {
               setMethod("card");
               setError("");
             }}
-            className={`rounded-xl border px-4 py-3 font-semibold ${
-              method === "card"
-                ? "border-blue-400 bg-blue-400 text-black"
-                : "border-white/15 text-white hover:border-blue-400"
-            }`}
+            className={`payment-tab ${method === "card" ? "selected" : ""}`}
           >
             Pay with Card
           </button>
@@ -113,11 +109,7 @@ function PaymentPage() {
               setMethod("bitcoin");
               setError("");
             }}
-            className={`rounded-xl border px-4 py-3 font-semibold ${
-              method === "bitcoin"
-                ? "border-blue-400 bg-blue-400 text-black"
-                : "border-white/15 text-white hover:border-blue-400"
-            }`}
+            className={`payment-tab ${method === "bitcoin" ? "selected" : ""}`}
           >
             Pay with Bitcoin
           </button>
@@ -131,7 +123,7 @@ function PaymentPage() {
             className="mt-8 text-center"
           >
             <h2 className="text-xl font-semibold">Card payment via Stripe</h2>
-            <p className="mt-2 text-sm leading-relaxed text-gray-400">
+            <p className="mt-2 text-sm leading-relaxed">
               You’ll be redirected to Stripe’s secure checkout. Card details
               are entered on Stripe, not stored by this site.
             </p>
@@ -139,7 +131,7 @@ function PaymentPage() {
               type="button"
               onClick={startCardCheckout}
               disabled={loading}
-              className="mt-6 w-full rounded-xl bg-blue-400 px-6 py-3.5 font-bold text-black transition-colors hover:bg-blue-300 disabled:cursor-wait disabled:opacity-60"
+              className="payment-action mt-6 w-full px-6 py-3.5 font-bold disabled:cursor-wait disabled:opacity-60"
             >
               {loading ? "Connecting to Stripe..." : "Continue to Card Checkout"}
             </button>
@@ -154,15 +146,15 @@ function PaymentPage() {
             <h2 className="text-center text-xl font-semibold">
               Pay with Bitcoin
             </h2>
-            <p className="mt-2 text-center text-sm text-gray-400">
+            <p className="mt-2 text-center text-sm">
               Send Bitcoin only after confirming the address with the recipient.
               This page cannot verify blockchain payments.
             </p>
-            <div className="mt-5 rounded-xl border border-white/10 bg-black/50 p-4">
-              <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+            <div className="payment-address mt-5 rounded-xl p-4">
+              <p className="text-xs font-semibold uppercase tracking-wider">
                 Bitcoin address
               </p>
-              <p className="mt-2 break-all font-mono text-sm text-white">
+              <p className="mt-2 break-all font-mono text-sm">
                 {BITCOIN_ADDRESS}
               </p>
             </div>
@@ -170,12 +162,12 @@ function PaymentPage() {
               <button
                 type="button"
                 onClick={copyBitcoinAddress}
-                className="mt-4 w-full rounded-xl border border-blue-400 px-6 py-3 font-semibold text-blue-300 hover:bg-blue-400/10"
+                className="payment-copy mt-4 w-full px-6 py-3 font-semibold"
               >
                 {copied ? "Address copied" : "Copy Bitcoin Address"}
               </button>
             ) : (
-              <p className="mt-4 text-center text-sm text-amber-300">
+              <p className="mt-4 text-center text-sm text-amber-700">
                 Replace the placeholder address in PaymentPage.jsx with a
                 Bitcoin address you control before accepting payments.
               </p>
@@ -184,7 +176,7 @@ function PaymentPage() {
         )}
 
         {error && (
-          <p role="alert" className="mt-5 text-center text-red-400">
+          <p role="alert" className="payment-error mt-5 text-center">
             {error}
           </p>
         )}

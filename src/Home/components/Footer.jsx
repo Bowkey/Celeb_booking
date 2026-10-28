@@ -2,101 +2,54 @@ import { Link } from "react-router";
 
 function Footer() {
   return (
-    <footer className="bg-gray-950 border-t border-white/5 py-16">
-      <div className="max-w-7xl mx-auto px-5">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+    <footer className="modern-footer">
+      <div className="modern-footer-inner">
+        <div className="modern-footer-main">
           <div>
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-linear-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/30">
-                <img src="/favicon.svg" alt="" className="h-6 w-6" />
-
-              </div>
-              <span className="text-2xl font-bold text-white">
-                My<span className="text-blue-400">Star</span>Booking
-              </span>
+            <Link to="/" className="modern-footer-brand">
+              <span className="modern-footer-brand-mark"><img src="/favicon.svg" alt="" /></span>
+              <span>My<span>Star</span>Booking</span>
             </Link>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              The premier platform to hire top celebrities for your events,
-              weddings, and parties.
+            <p className="modern-footer-about">
+              A place to discover talent, explore appearances, and start planning
+              a moment worth remembering.
             </p>
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
-                  Celebrities
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
-                  Services
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
-                  About Us
-                </a>
-              </li>
+            <h2>Explore</h2>
+            <ul>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/celebrities">Celebrities</Link></li>
+              <li><Link to="/services">Services</Link></li>
+              <li><Link to="/about">About us</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4">Services</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
-                  Live Performances
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
-                  Destination Events
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
-                  Social Media Stars
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
-                  Corporate Events
-                </a>
-              </li>
+            <h2>Plan an appearance</h2>
+            <ul>
+              <li><Link to="/services">Live performances</Link></li>
+              <li><Link to="/services">Meet and greets</Link></li>
+              <li><Link to="/services">Speaking and hosting</Link></li>
+              <li><Link to="/services">Virtual appearances</Link></li>
             </ul>
           </div>
 
-          <div>
-            <h4 className="text-white font-semibold mb-4">Stay Connected</h4>
-            <p className="text-gray-400 text-sm mb-4">
-              Subscribe to get the latest updates on new celebrities and offers.
-            </p>
-            <div className="flex gap-3">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="flex-1 px-4 py-2.5 bg-white/10 border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-400/50 transition-colors"
-              />
-              <button className="px-5 py-2.5 bg-blue-400 hover:bg-blue-300 text-black font-semibold rounded-xl transition-all hover:scale-105 whitespace-nowrap">
-                Subscribe
-              </button>
-            </div>
+          <div className="modern-footer-subscribe">
+            <h2>Stay in the loop</h2>
+            <p>Get in touch to ask about appearances and upcoming events.</p>
+            <Link className="modern-footer-contact" to="/booking">
+              Send a booking enquiry <span aria-hidden="true">↗</span>
+            </Link>
           </div>
         </div>
 
-        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-          <p>&copy; 2026 MyStar. All rights reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-blue-400 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-blue-400 transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-blue-400 transition-colors">Cookie Policy</a>
+        <div className="modern-footer-bottom">
+          <p>© 2026 MyStarBooking. All rights reserved.</p>
+          <div className="modern-footer-legal">
+            <span>Availability and fees are confirmed before booking.</span>
+            <Link to="/about">How it works</Link>
           </div>
         </div>
       </div>

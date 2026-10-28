@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { getCelebrityRate, saveBooking } from "../../Admin/adminData.js";
 
 const eventTypes = [
   "Meet and Greet",
@@ -19,44 +20,71 @@ const eventTypes = [
   "Fan Club Gatherings",
 ];
 
-const inputClassName =
-  "mt-2 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-3 text-white placeholder:text-gray-500 focus:border-blue-400 focus:outline-none";
+const inputClassName = "booking-field-control";
 
 function BookPage() {
   const navigate = useNavigate();
+  const [saveError, setSaveError] = useState("");
   const [celebrityName] = useState(
     () => new URLSearchParams(window.location.search).get("celebrity") || "",
   );
+  const celebrityRate = getCelebrityRate(celebrityName);
 
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    const bookingId = `BK-${Date.now().toString().slice(-6)}`;
+    const booking = {
+      id: bookingId,
+      customer: String(formData.get("fullName") || "").trim(),
+      email: String(formData.get("email") || "").trim(),
+      celebrity: String(formData.get("celebrityName") || "").trim(),
+      event: String(formData.get("eventType") || "").trim(),
+      date: String(formData.get("eventDate") || new Date().toISOString().slice(0, 10)),
+      amount: getCelebrityRate(String(formData.get("celebrityName") || "").trim()) || 0,
+      status: "Pending",
+      contactNumber: String(formData.get("contactNumber") || "").trim(),
+      country: String(formData.get("country") || "").trim(),
+      state: String(formData.get("state") || "").trim(),
+      address: String(formData.get("address") || "").trim(),
+    };
+    try {
+      saveBooking(booking);
+    } catch (error) {
+      console.error("Could not save booking request.", error);
+      setSaveError("We couldn't save your booking request. Please check your browser storage and try again.");
+      return;
+    }
     const params = new URLSearchParams({
-      celebrity: String(formData.get("celebrityName") || ""),
-      eventType: String(formData.get("eventType") || ""),
+      celebrity: booking.celebrity,
+      eventType: booking.event,
+      bookingId,
     });
     navigate(`/payment?${params.toString()}`);
   }
 
   return (
-    <main className="min-h-[70vh] bg-black px-5 pb-20 pt-32 text-white">
-      <div className="mx-auto max-w-3xl">
-        <div className="mb-10 text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-400">
-            Make it unforgettable
+    <main className="booking-page">
+      <div className="booking-layout">
+        <aside className="booking-intro">
+          <span className="booking-eyebrow">MAKE IT A MOMENT</span>
+          <h1>Start your booking request.</h1>
+          <p>
+            Tell us about your event and who you would like to invite. Our team
+            will follow up to discuss availability and a final quote.
           </p>
-          <h1 className="mt-3 text-4xl font-bold md:text-5xl">
-            Book a Celebrity
-          </h1>
-          <p className="mx-auto mt-4 max-w-xl text-gray-400">
-            Tell us about your event and who you would like to book.
-          </p>
-        </div>
+          <div className="booking-confidence">
+            <span>No commitment to enquire</span>
+            <span>Final pricing confirmed with you</span>
+            <span>Availability checked for your date</span>
+          </div>
+        </aside>
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-6 rounded-2xl border border-white/10 bg-white/5 p-6 md:p-10"
-        >
+        <form onSubmit={handleSubmit} className="booking-form">
+          <div className="booking-form-heading">
+            <h2>Tell us about your event</h2>
+            <p>Fields marked below are required.</p>
+          </div>
           <div>
             <label htmlFor="celebrity-name" className="font-medium">
               Celebrity Name
@@ -66,13 +94,20 @@ function BookPage() {
               name="celebrityName"
               type="text"
               value={celebrityName}
-              placeholder="Enter the celebrity's name"
+              placeholder="Go to the Celebrity search bar and select availabile Star"
               readOnly={Boolean(celebrityName)}
               required
               className={`${inputClassName} ${
                 celebrityName ? "cursor-not-allowed text-gray-300" : ""
               }`}
             />
+            {celebrityName && (
+              <p className="booking-estimate">
+                {celebrityRate === null
+                  ? "No public starting price is set yet. We'll confirm the quote after you submit your request."
+                  : `Estimated starting price: $${celebrityRate.toLocaleString("en-US")}. The final quote is confirmed by the booking team before you commit.`}
+              </p>
+            )}
           </div>
 
           <div>
@@ -84,7 +119,7 @@ function BookPage() {
               name="eventType"
               defaultValue=""
               required
-              className={`${inputClassName} [&>option]:bg-gray-950`}
+              className={inputClassName}
             >
               <option value="" disabled>
                 Select an event type
@@ -95,6 +130,20 @@ function BookPage() {
                 </option>
               ))}
             </select>
+          </div>
+
+          <div>
+            <label htmlFor="event-date" className="font-medium">
+              Preferred Event Date
+            </label>
+            <input
+              id="event-date"
+              name="eventDate"
+              type="date"
+              min={new Date().toISOString().slice(0, 10)}
+              required
+              className={inputClassName}
+            />
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2">
@@ -178,13 +227,15 @@ function BookPage() {
             </div>
           </div>
 
+          {saveError && <p role="alert" className="booking-error">{saveError}</p>}
+
           <button
             type="submit"
-            className="w-full rounded-xl bg-blue-400 px-6 py-3.5 font-bold text-black transition-colors hover:bg-blue-300"
+            className="booking-submit"
           >
-            Submit Booking
+            Send booking request <span aria-hidden="true">→</span>
           </button>
-
+          <p className="booking-note">Sending a request does not confirm a booking or require payment.</p>
         </form>
       </div>
     </main>
